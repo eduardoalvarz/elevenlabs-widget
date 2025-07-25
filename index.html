@@ -1,53 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<head>
+  <meta charset="UTF-8" />
+  <title>ElevenLabs Widget</title>
 
-    <style>
-      /* Contenedor para recortar la parte inferior donde aparece el crédito */
-      #convai-wrapper {
-        width: 360px;      /* ajusta a tu layout */
-        max-width: 100%;
-        height: 180px;     /* juega con este valor hasta ocultar el footer */
-        overflow: hidden;
-        margin: 0 auto;
-        border-radius: 16px;
-        position: relative;
+  <!-- Carga del widget -->
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Contenedor opcional por si quieres recortar el footer sin tocar el shadow DOM */
+    #wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      height: 220px;              /* Ajusta según necesites */
+      overflow: hidden;            /* Recorta lo que se salga (branding) */
+    }
+    elevenlabs-convai {
+      position: absolute;
+      inset: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Usa wrapper si quieres recortar. Si no, puedes quitar este div y el CSS asociado -->
+  <div id="wrapper">
+    <elevenlabs-convai agent-id="agent_01k0b2gt56fjkbq34m6carknd5"></elevenlabs-convai>
+  </div>
+
+  <script>
+    // Intento de ocultar la marca dentro del shadow DOM (solo funciona si es shadow 'open')
+    (function hideBranding() {
+      const widget = document.querySelector('elevenlabs-convai');
+      if (!widget) return requestAnimationFrame(hideBranding);
+
+      function removeFooter() {
+        if (!widget.shadowRoot) return; // shadow 'closed' => no se puede acceder
+        const nodes = widget.shadowRoot.querySelectorAll('*');
+        nodes.forEach(n => {
+          if (n.textContent && n.textContent.trim().toLowerCase().includes('powered by elevenlabs')) {
+            n.style.display = 'none';
+          }
+        });
       }
 
-      /* Intenta ocultar con selectores “normales”; si el Shadow DOM es abierto, esto podría funcionar */
-      elevenlabs-convai p.whitespace-nowrap.text-\[10px\] {
-        display: none !important;
-      }
+      // Observa cambios para volver a ocultar si el widget se re-renderiza
+      const mo = new MutationObserver(removeFooter);
+      mo.observe(widget, { subtree: true, childList: true });
 
-      elevenlabs-convai p[class*="whitespace-nowrap"][class*="text-[10px]"] {
-        display: none !important;
-      }
-
-      /* Si exponen ::part() en algún update futuro */
-      elevenlabs-convai::part(footer),
-      elevenlabs-convai::part(branding) {
-        display: none !important;
-      }
-
-      /* Como extra, ocultar el link de crédito si se “ve” desde fuera */
-      elevenlabs-convai a[href^="https://elevenlabs.io/conversational-ai"] {
-        display: none !important;
-        visibility: hidden !important;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="convai-wrapper">
-      <elevenlabs-convai
-        agent-id="agent_01k0b2gt56fjkbq34m6carknd5"
-        action-text="¿Necesitas ayuda?"
-        start-call-text="Iniciar conversación"
-        end-call-text="Finalizar conversación"
-        listening-text="Escuchando…"
-        speaking-text="Hablando…">
-      </elevenlabs-convai>
-    </div>
-  </body>
+      removeFooter();
+    })();
+  </script>
+</body>
 </html>
