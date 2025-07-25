@@ -1,0 +1,49 @@
+/* =========================
+   Estilos generales
+   ========================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f4f4f4;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenedor del widget (para centrarlo o recortarlo si es necesario) */
+#convai-wrapper {
+  width: 360px;         /* ajusta según tu layout */
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  overflow: hidden;     /* activar si decides recortar la parte inferior */
+  border-radius: 16px;
+}
+
+/* =========================
+   Hacks NO documentados
+   =========================
+   - Estos selectores podrían NO funcionar si el widget usa Shadow DOM cerrado.
+   - Úsalos bajo tu propio riesgo.
+   - Si ElevenLabs expone ::part() en el futuro, cámbialos por esa API.
+*/
+
+/* Ejemplo 1: intentar ocultar un footer expuesto con clases (no oficial) */
+.widget-selector .footer { 
+  display: none !important; 
+}
+
+/* Ejemplo 2: si el widget expone partes del shadow DOM */
+elevenlabs-convai::part(footer) {
+  display: none !important;
+}
+
+/* Ejemplo 3: recorte bruto del área inferior (corta también parte del contenido) */
+/*
+#convai-wrapper {
+  height: 150px;  // reduce para tapar el "Powered by..."
+  overflow: hidden;
+}
+*/

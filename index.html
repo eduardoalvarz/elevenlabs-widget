@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Widget ElevenLabs (Personalizado)</title>
+
+    <!-- Script oficial del widget -->
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+    <!-- Hoja de estilos externa -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!--
+      NOTA:
+      - Los atributos action-text, start-call-text, etc., están documentados por ElevenLabs para personalizar textos.
+      - El branding 'Powered by ElevenLabs' NO se puede quitar oficialmente. El CSS que lo oculta es un hack y puede romperse o violar TOS.
+    -->
+    <div id="convai-wrapper">
+      <elevenlabs-convai
+        agent-id="agent_01k0b2gt56fjkbq34m6carknd5"
+        action-text="¿Necesitas ayuda?"
+        start-call-text="Iniciar conversación"
+        end-call-text="Finalizar conversación"
+        expand-text="Abrir chat"
+        listening-text="Escuchando…"
+        speaking-text="Hablando…"
+        avatar-orb-color-1="#0d6efd"
+        avatar-orb-color-2="#6610f2">
+      </elevenlabs-convai>
+    </div>
+  </body>
+</html>
