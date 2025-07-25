@@ -1,4 +1,3 @@
-elevenlabs-convai::part(footer),
-elevenlabs-convai::part(branding) {
+elevenlabs-convai p.whitespace-nowrap.text-\[10px\] {
   display: none !important;
 }
