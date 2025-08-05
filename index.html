@@ -1,64 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>ElevenLabs Widget</title>
-
-  <!-- Carga del widget -->
-  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-
-  <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: #f4f4f4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Contenedor opcional por si quieres recortar el footer sin tocar el shadow DOM */
-    #wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 480px;
-      height: 220px;              /* Ajusta según necesites */
-      overflow: hidden;            /* Recorta lo que se salga (branding) */
-    }
-    elevenlabs-convai {
-      position: absolute;
-      inset: 0;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Agente de Soporte</title>
 </head>
 <body>
-  <!-- Usa wrapper si quieres recortar. Si no, puedes quitar este div y el CSS asociado -->
-  <div id="wrapper">
-    <elevenlabs-convai agent-id="agent_4101k1y8by00f8ctvhb79nmw41mx"></elevenlabs-convai>
-  </div>
-
-  <script>
-    // Intento de ocultar la marca dentro del shadow DOM (solo funciona si es shadow 'open')
-    (function hideBranding() {
-      const widget = document.querySelector('elevenlabs-convai');
-      if (!widget) return requestAnimationFrame(hideBranding);
-
-      function removeFooter() {
-        if (!widget.shadowRoot) return; // shadow 'closed' => no se puede acceder
-        const nodes = widget.shadowRoot.querySelectorAll('*');
-        nodes.forEach(n => {
-          if (n.textContent && n.textContent.trim().toLowerCase().includes('powered by elevenlabs')) {
-            n.style.display = 'none';
-          }
-        });
-      }
-
-      // Observa cambios para volver a ocultar si el widget se re-renderiza
-      const mo = new MutationObserver(removeFooter);
-      mo.observe(widget, { subtree: true, childList: true });
-
-      removeFooter();
-    })();
-  </script>
+  <elevenlabs-convai agent-id="agent_4101k1y8by00f8ctvhb79nmw41mx"></elevenlabs-convai>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
